@@ -42,8 +42,12 @@ func main() {
   
    if received[1]=="/"{
    conn.Write([]byte("HTTP/1.1 200 OK\r\n\r\n"))
+ }else if strings.Contains(received[1],"/echo"){
+   str:=strings.TrimPrefix(received[1],"/echo/")
+   conn.Write([]byte("HTTP/1.1 200 OK\r\nContent-Type:text/plain\r\nContent-Length: %d\r\n\r\n%s",len(str),str))
  }else{
    conn.Write([]byte("HTTP/1.1 404 Not Found\r\n\r\n"))
+
  }
 
 }
