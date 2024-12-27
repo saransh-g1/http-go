@@ -2,11 +2,13 @@ package main
 
 import (
 	"fmt"
-	"net"
+	"net/http"
 	"os"
+  "net"
   "strings"
-  "strconv"
+  "bufio"
 )
+
 
 // Ensures gofmt doesn't remove the "net" and "os" imports above (feel free to remove this!)
 var _ = net.Listen
@@ -31,32 +33,27 @@ func main() {
 	 	fmt.Println("Error accepting connection: ", err.Error())
 	 	os.Exit(1)
 	 }
-   
-   buf:=make([]byte,512)
-   _,errr:=conn.Read(buf)
+  
+   reader:=bufio.NewReader(conn)
+   req,errr:=http.ReadRequest(reader)
    if errr!=nil{
      fmt.Println("error while reading", errr)
    }
+   fmt.Println(req.Header["User-Agent"])   
+   fmt.Println(req.URL.Path)
+
+   if req.URL.Path=="/"{
+      fmt.Fprintf(conn,"HTTP/1.1 200 OK\r\n\r\n")
+   }else if req.URL.Path=="/echo/*"{
+     str:=strings.TrimPrefix(req.URL.Path,"/echo/")
+   fmt.Fprintf(conn, "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: %d\r\n\r\n%s", len(str), str)
+   }else if req.URL.Path=="/user-agent"{
+	 fmt.Fprintf(conn, "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: %d\r\n\r\n%s", len(req.UserAgent()), req.UserAgent())
+   }else{
+		fmt.Fprintf(conn, "HTTP/1.1 404 Not Found\r\n\r\n")
+   }
    
- 
-   received :=strings.Split(string(buf)," ")
+    
   
-   if received[1]=="/"{
-   conn.Write([]byte("HTTP/1.1 200 OK\r\n\r\n"))
- }else if strings.Contains(received[1],"/echo"){
-   str:=strings.TrimPrefix(received[1],"/echo/")
-
-   conn.Write([]byte("HTTP/1.1 200 OK\r\nContent-Type:text/plain\r\nContent-Length: "+strconv.Itoa(len(str))+"\r\n\r\n"+str))
- }else if strings.Contains(received[1],"/user-agent"){
-  str:=received[5] 
-  str=strings.TrimSpace(str)
-  fmt.Println(str,len(received[5]),len("foobar/1.2.3"),received)
-
-  conn.Write([]byte("HTTP/1.1 200 OK\r\nContent-Type:text/plain\r\nContent-Length: "+strconv.Itoa(len(str))+"\r\n\r\n"+str))
-
- }else{
-   conn.Write([]byte("HTTP/1.1 404 Not Found\r\n\r\n"))
-
- }
 
 }
