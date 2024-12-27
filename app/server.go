@@ -41,7 +41,7 @@ func main() {
 
    if req.URL.Path=="/"{
       fmt.Fprintf(conn,"HTTP/1.1 200 OK\r\n\r\n")
-   }else if req.URL.Path=="/echo/*"{
+   }else if strings.Contains(req.URL.Path,"/echo"){
      str:=strings.TrimPrefix(req.URL.Path,"/echo/")
    fmt.Fprintf(conn, "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: %d\r\n\r\n%s", len(str), str)
    }else if req.URL.Path=="/user-agent"{
