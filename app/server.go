@@ -47,6 +47,11 @@ func main() {
    str:=strings.TrimPrefix(received[1],"/echo/")
 
    conn.Write([]byte("HTTP/1.1 200 OK\r\nContent-Type:text/plain\r\nContent-Length: "+strconv.Itoa(len(str))+"\r\n\r\n"+str))
+ }else if strings.Contains(received[1],"/user-agent"){
+  str:=received[5] 
+  fmt.Println(str,len(str))
+  conn.Write([]byte("HTTP/1.1 200 OK\r\nContent-Type:text/plain\r\nContent-Length: "+strconv.Itoa(len(str))+"\r\n\r\n"+str))
+
  }else{
    conn.Write([]byte("HTTP/1.1 404 Not Found\r\n\r\n"))
 
