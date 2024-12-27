@@ -28,7 +28,6 @@ func main() {
   	
    
    conn, err := l.Accept()
-	  fmt.Println(conn)
    if err != nil {
 	 	fmt.Println("Error accepting connection: ", err.Error())
 	 	os.Exit(1)
@@ -39,8 +38,6 @@ func main() {
    if errr!=nil{
      fmt.Println("error while reading", errr)
    }
-   fmt.Println(req.Header["User-Agent"])   
-   fmt.Println(req.URL.Path)
 
    if req.URL.Path=="/"{
       fmt.Fprintf(conn,"HTTP/1.1 200 OK\r\n\r\n")
