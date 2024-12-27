@@ -49,9 +49,7 @@ func main() {
    conn.Write([]byte("HTTP/1.1 200 OK\r\nContent-Type:text/plain\r\nContent-Length: "+strconv.Itoa(len(str))+"\r\n\r\n"+str))
  }else if strings.Contains(received[1],"/user-agent"){
   str:=received[5] 
-  str=strings.TrimSpace(str)
-  fmt.Println(str,len(received[5]),len("foobar/1.2.3"),received)
-
+  fmt.Println(str,len(string(str)),len("foobar/1.2.3"))
   conn.Write([]byte("HTTP/1.1 200 OK\r\nContent-Type:text/plain\r\nContent-Length: "+strconv.Itoa(len(str))+"\r\n\r\n"+str))
 
  }else{
