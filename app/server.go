@@ -5,6 +5,7 @@ import (
 	"net"
 	"os"
   "strings"
+  "strconv"
 )
 
 // Ensures gofmt doesn't remove the "net" and "os" imports above (feel free to remove this!)
@@ -44,7 +45,8 @@ func main() {
    conn.Write([]byte("HTTP/1.1 200 OK\r\n\r\n"))
  }else if strings.Contains(received[1],"/echo"){
    str:=strings.TrimPrefix(received[1],"/echo/")
-   conn.Write([]byte("HTTP/1.1 200 OK\r\nContent-Type:text/plain\r\nContent-Length: %d\r\n\r\n%s",len(str),str))
+
+   conn.Write([]byte("HTTP/1.1 200 OK\r\nContent-Type:text/plain\r\nContent-Length: "+strconv.Itoa(len(str))+"\r\n\r\n"+str))
  }else{
    conn.Write([]byte("HTTP/1.1 404 Not Found\r\n\r\n"))
 
