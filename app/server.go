@@ -8,6 +8,9 @@ import (
   "strings"
   "bufio"
   "io"
+  "compress/gzip"
+  "bytes"
+  "encoding/hex"
 )
 
 
@@ -59,7 +62,16 @@ func resolveHeaders (conn net.Conn){
       }
 
       if flag{
-     fmt.Fprintf(conn,"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Encoding: gzip\r\n\r\n")
+        var b bytes.Buffer
+        str:=strings.TrimPrefix(req.URL.Path,"/echo/")
+      
+        w:=gzip.NewWriter(&b)
+        w.Write([]byte(str))
+        w.Close()
+        
+	      encodedString := hex.EncodeToString(b.Bytes())
+        fmt.Fprintf(conn,"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Encoding: gzip\r\nContent-Length: %d\r\n\r\n%s",len(str),encodedString)
+
      }else{
       fmt.Fprintf(conn,"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n\r\n")
      }
