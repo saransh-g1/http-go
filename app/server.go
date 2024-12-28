@@ -47,11 +47,11 @@ func resolveHeaders (conn net.Conn){
    if errr!=nil{
      fmt.Println("error while reading", errr)
    }
-    if req.Accept-Encoding()=="gzip"{
+    if req.Header.Get("Accept-Encoding")=="gzip"{
      fmt.Fprintf(conn,"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Encoding: gzip")
      
       //has to be seen
-     continue
+     return
     }
 
     if req.Method=="POST"{
