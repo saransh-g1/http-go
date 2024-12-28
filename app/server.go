@@ -47,9 +47,22 @@ func resolveHeaders (conn net.Conn){
    if errr!=nil{
      fmt.Println("error while reading", errr)
    }
-    if req.Header.Get("Accept-Encoding")=="gzip"{
+   
+
+    if req.Header.Get("Accept-Encoding")!=""{
+      headers:=strings.Split(req.Header.Get("Accept-Encoding"),",")
+      var flag bool=false
+      for _,val:=range headers{
+        if(val=="gzip"){
+          flag=true
+        }
+      }
+
+      if flag{
      fmt.Fprintf(conn,"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Encoding: gzip\r\n\r\n")
-     
+     }else{
+      fmt.Fprintf(conn,"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n\r\n")
+     }
       //has to be seen
      return
     }
