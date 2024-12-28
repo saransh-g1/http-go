@@ -56,7 +56,7 @@ func resolveHeaders (conn net.Conn){
 	 fmt.Fprintf(conn, "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: %d\r\n\r\n%s", len(req.UserAgent()), req.UserAgent())
    }else if strings.Contains(req.URL.Path,"/files") {
      str:=strings.TrimPrefix(req.URL.Path,"/files")
-     args:=os.Args
+     args:=os.Args[0]
      dirfn:=args+str
      fmt.Println(dirfn)
      file,err:=os.ReadFile()
