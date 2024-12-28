@@ -59,7 +59,7 @@ func resolveHeaders (conn net.Conn){
      args:=os.Args[0]
      dirfn:=args+str
      fmt.Println(dirfn)
-     file,err:=os.ReadFile()
+     file,err:=os.ReadFile(dirfn)
      if err!=nil{
        fmt.Println(err)
      }
