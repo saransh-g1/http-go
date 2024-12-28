@@ -7,6 +7,7 @@ import (
   "net"
   "strings"
   "bufio"
+  "io"
 )
 
 
@@ -46,8 +47,24 @@ func resolveHeaders (conn net.Conn){
    if errr!=nil{
      fmt.Println("error while reading", errr)
    }
+    if req.Method=="POST"{
+      dirfn:=os.Args[2]+strings.TrimPrefix(req.URL.Path,"/files")
+      file,err:=os.Create(dirfn)
+      if err!=nil{
+        fmt.Println(err)
+      }
+      data,err:=io.ReadAll(req.Body)
+      if err!=nil{
+        fmt.Println(err)
+      }
+      
+      _,err=file.WriteString(string(data))
+      if err!=nil{
+        fmt.Println(err)
+      }
+      fmt.Fprintf(conn,"HTTP/1.1 201 Created\r\n\r\n")
 
-   if req.URL.Path=="/"{
+    } else if req.URL.Path=="/"{
       fmt.Fprintf(conn,"HTTP/1.1 200 OK\r\n\r\n")
    }else if strings.Contains(req.URL.Path,"/echo"){
      str:=strings.TrimPrefix(req.URL.Path,"/echo/")
