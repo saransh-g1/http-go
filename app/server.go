@@ -33,7 +33,15 @@ func main() {
 	 	os.Exit(1)
 	 }
   
-   reader:=bufio.NewReader(conn)
+  go resoveHeader 
+    
+  
+
+}
+
+
+func resolveHeaders (net.conn conn){
+      reader:=bufio.NewReader(conn)
    req,errr:=http.ReadRequest(reader)
    if errr!=nil{
      fmt.Println("error while reading", errr)
@@ -49,8 +57,5 @@ func main() {
    }else{
 		fmt.Fprintf(conn, "HTTP/1.1 404 Not Found\r\n\r\n")
    }
-   
-    
-  
-
+ 
 }
