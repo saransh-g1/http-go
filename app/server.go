@@ -58,12 +58,11 @@ func resolveHeaders (conn net.Conn){
      str:=strings.TrimPrefix(req.URL.Path,"/files")
      args:=os.Args[0]
      dirfn:=args+str
-     fmt.Println(dirfn)
      file,err:=os.ReadFile(dirfn)
      if err!=nil{
        fmt.Println(err)
      }
-     fmt.Fprintf(conn, "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: %d\r\n\r\n%s", len(file), string(file))
+     fmt.Fprintf(conn, "HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: %d\r\n\r\n%s", len(file), string(file))
    }else{
 		fmt.Fprintf(conn, "HTTP/1.1 404 Not Found\r\n\r\n")
    }
