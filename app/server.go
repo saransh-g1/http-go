@@ -47,6 +47,13 @@ func resolveHeaders (conn net.Conn){
    if errr!=nil{
      fmt.Println("error while reading", errr)
    }
+    if req.Accept-Encoding()=="gzip"{
+     fmt.Fprintf(conn,"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Encoding: gzip")
+     
+      //has to be seen
+     continue
+    }
+
     if req.Method=="POST"{
       dirfn:=os.Args[2]+strings.TrimPrefix(req.URL.Path,"/files")
       file,err:=os.Create(dirfn)
