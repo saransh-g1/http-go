@@ -10,7 +10,6 @@ import (
   "io"
   "compress/gzip"
   "bytes"
-  "encoding/hex"
 )
 
 
@@ -62,15 +61,15 @@ func resolveHeaders (conn net.Conn){
       }
 
       if flag{
-        var b bytes.Buffer
+        
         str:=strings.TrimPrefix(req.URL.Path,"/echo/")
-      
-        w:=gzip.NewWriter(&b)
+        var b bytes.Buffer
+        w:=gzip.NewWriter(&b) 
         w.Write([]byte(str))
         w.Close()
-        
-	      encodedString := hex.EncodeToString(b.Bytes())
-        fmt.Fprintf(conn,"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Encoding: gzip\r\nContent-Length: %d\r\n\r\n%s",len(str),encodedString)
+	      
+        fmt.Println(b.String())
+        fmt.Fprintf(conn,"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Encoding: gzip\r\nContent-Length: %s\r\n\r\n%s",string(len(str)),b.String())
 
      }else{
       fmt.Fprintf(conn,"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n\r\n")
