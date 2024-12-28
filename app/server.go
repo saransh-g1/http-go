@@ -60,7 +60,7 @@ func resolveHeaders (conn net.Conn){
      dirfn:=args+str
      file,err:=os.ReadFile(dirfn)
      if err!=nil{
-       fmt.Println(err)
+       fmt.Fprintf(conn, "HTTP/1.1 404 Not Found\r\n\r\n")
      }
      fmt.Fprintf(conn, "HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: %d\r\n\r\n%s", len(file), string(file))
    }else{
