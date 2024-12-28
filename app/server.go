@@ -69,7 +69,7 @@ func resolveHeaders (conn net.Conn){
         w.Close()
 	      
         fmt.Println(b.String())
-        fmt.Fprintf(conn,"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Encoding: gzip\r\nContent-Length: %s\r\n\r\n%s",string(len(str)),b.String())
+        fmt.Fprintf(conn,"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Encoding: gzip\r\nContent-Length: %s\r\n\r\n%s",fmt.Sprint(len(b.String())),b.String())
 
      }else{
       fmt.Fprintf(conn,"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n\r\n")
