@@ -57,8 +57,9 @@ func resolveHeaders (conn net.Conn){
    }else if strings.Contains(req.URL.Path,"/files") {
      str:=strings.TrimPrefix(req.URL.Path,"/files")
      args:=os.Args
-     fmt.Println(args)
-     file,err:=os.ReadFile(str)
+     dirfn:=args+str
+     fmt.Println(dirfn)
+     file,err:=os.ReadFile()
      if err!=nil{
        fmt.Println(err)
      }
