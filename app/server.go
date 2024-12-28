@@ -33,14 +33,14 @@ func main() {
 	 	os.Exit(1)
 	 }
   
-  go resoveHeader(conn) 
+  go resolveHeaders(conn) 
     
   
 
 }
 
 
-func resolveHeaders (net.conn conn){
+func resolveHeaders (conn net.Conn){
       reader:=bufio.NewReader(conn)
    req,errr:=http.ReadRequest(reader)
    if errr!=nil{
