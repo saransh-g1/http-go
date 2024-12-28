@@ -53,7 +53,7 @@ func resolveHeaders (conn net.Conn){
       headers:=strings.Split(req.Header.Get("Accept-Encoding"),",")
       var flag bool=false
       for _,val:=range headers{
-        if(val=="gzip"){
+        if(strings.TrimSpace(val)=="gzip"){
           flag=true
         }
       }
