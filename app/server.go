@@ -33,7 +33,7 @@ func main() {
 	 	os.Exit(1)
 	 }
   
-  go resoveHeader 
+  go resoveHeader(conn) 
     
   
 
